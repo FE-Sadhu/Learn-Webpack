@@ -1,0 +1,1 @@
+@import './avatar.css';  /* 这是css里面的引入，css-loader就负责读取这些个css文件之间的关联，然后合成一个css文件 */
