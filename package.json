@@ -4,7 +4,6 @@
   "description": "学习 webpack 的过程中阶段性的练习代码。",
   "private": true,
   "scripts": {
-    "build": "webpack",
     "start": "webpack-dev-server"
   },
   "author": "sadhu",
