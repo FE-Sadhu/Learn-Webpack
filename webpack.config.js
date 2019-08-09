@@ -1,39 +1,53 @@
-const path = require('path'); // nodejs的路径模块
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
-  entry: './src/index.js', // 要打包的入口文件
-  module: { // 配置当打包一个模块儿的时候干啥
-    rules: [{
-      test: /\.jpg$/, // 当打包以 .jpg 结尾的文件时使用下一行的 loader 来帮助我们坐打包
-      use: {
-        loader: 'url-loader', // 我们需要先安装一下 file-loader 这个工具 -> npm install file-loader -D
-        options: { // 配置参数参考文档
-          name: '[name]_[hash].[ext]',
-          outputPath: 'images/',
-          limit: 2048
-        }
-      }
-    }, {
-      test: /\.css$/, // 当打包以 .jpg 结尾的文件时使用下一行的 loader 来帮助我们坐打包
-      use: [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 2
-          }
-        }
-      ]
-    }, {
-      test: /\.(eot|ttf|svg|woff)$/, // 当打包以 .jpg 结尾的文件时使用下一行的 loader 来帮助我们坐打包
-      use: {
-        loader: 'file-loader'
-      }
-    }]
+  mode: 'development', // 开发者模式默认开启了 sourceMap
+  devtool: 'cheap-module-eval-source-map', // 取消开发者模式下默认开启的 sourceMap
+	entry: {
+		main: './src/index.js'
   },
-  output: {
-    filename: 'sadhu.js',
-    path: path.resolve(__dirname, 'dist') // 此时的__dirname就是配置文件的当前路径,dist就是该路径下打包后的文件夹
-  }
+  devServer: { // 提升开发效率，起个服务器，当修改源代码后，自动打包并且响应在页面上。
+    contentBase: './dist', // 以 dist 目录下文件起一个本地服务器
+    open: true // 配置后，当我们执行打包完成后，会自动打开浏览器，访问该本地服务器。
+  },
+	module: {
+		rules: [{
+			test: /\.(jpg|png|gif)$/,
+			use: {
+				loader: 'url-loader',
+				options: {
+					name: '[name]_[hash].[ext]',
+					outputPath: 'images/',
+					limit: 10240
+				}
+			} 
+		}, {
+			test: /\.(eot|ttf|svg)$/,
+			use: {
+				loader: 'file-loader'
+			} 
+		}, {
+			test: /\.scss$/,
+			use: [
+				'style-loader', 
+				{
+					loader: 'css-loader',
+					options: {
+						importLoaders: 2
+					}
+				},
+				'sass-loader',
+				'postcss-loader'
+			]
+		}]
+	},
+	plugins: [new HtmlWebpackPlugin({
+		template: 'src/index.html'
+	}), new CleanWebpackPlugin(['dist'])],
+	output: {
+		filename: 'bundle.js',
+		path: path.resolve(__dirname, 'dist')
+	}
 }
