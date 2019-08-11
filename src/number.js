@@ -1,7 +1,0 @@
-function number() {
-  var div = document.createElement('div');
-  div.setAttribute('id', 'number');
-  div.innerHTML = 3000;
-  document.body.append(div);
-}
-export default number;
