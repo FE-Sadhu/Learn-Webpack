@@ -55,22 +55,12 @@ module.exports = {
 			exclude: /node_modules/,
 			loader: "babel-loader",
 			options: {
-				// "presets": [["@babel/preset-env", {
-				// 	targets: {
-				// 		chrome: "67", // Chrome 版本大于67的话 babel 就不转译代码了
-				// 	},
-				// 	useBuiltIns: 'usage' // 这个配置是实现 按需加载 babel polyfill, 而不是一次性把所有 polyfill 打包进去
-				// }]]
-				"plugins": [
-					[
-						"@babel/plugin-transform-runtime", {
-							"corejs": 2,
-							"helpers": true,
-							"regenerator": true,
-							"useESModules": false
-						}
-					]
-				]
+				"presets": [["@babel/preset-env", {
+					targets: {
+						chrome: "67", // Chrome 版本大于67的话 babel 就不转译代码了
+					},
+					useBuiltIns: 'usage' // 这个配置是实现 按需加载 babel polyfill, 而不是一次性把所有 polyfill 打包进去。并且配置了这项后，会自动在业务代码中引入 polifill， 不用我们手动 import 引入了。
+				}]]
 			}
 		}]
 	},
@@ -79,8 +69,11 @@ module.exports = {
 		}), new CleanWebpackPlugin(['dist']),
 		new Webpack.HotModuleReplacementPlugin()
 	],
+	optimization: {
+		usedExports: true
+	}, // Tree Shaking
 	output: {
-		filename: 'bundle.js',
+		filename: '[name].js',
 		path: path.resolve(__dirname, 'dist')
 	}
 }
