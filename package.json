@@ -4,8 +4,8 @@
   "description": "学习 webpack 的过程中阶段性的练习代码。",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.js", // 这是打包开发环境的 webpack 配置
-    "build": "webpack --config webpack.prod.js" // 这是打包生产环境的 webpack 配置
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "sadhu",
   "license": "ISC",
@@ -22,7 +22,8 @@
     "url-loader": "^2.1.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
   },
   "main": "webpack.config.js",
   "dependencies": {
